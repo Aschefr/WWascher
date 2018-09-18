@@ -1,48 +1,50 @@
 #include "valve.h"
-/*
-    void askOpen_12();
-    void askClose_13();
 
-    void execTimer(int setTimer);
-    void initValve(bool posInit);
-
-    bool isOpen_12();
-    bool isClose_13();
-*/
-
-unsigned long last_time = millis();
-int last_status = 0;
-
-Valve::Valve(int pin_temp) {
-  this->pin = pin_temp;
-
-  pinMode(this->pin, OUTPUT);
-
-  this->askClose_13();
+Valve::Valve(int pin_temp, bool initState = LOW, bool reverse = false) : out(pin_temp, initState, reverse) {
+  this->reset();
 }
 
-void Valve::askOpen_12() {
-  digitalWrite(this->pin, LOW);
-    unsigned long setTimer = millis();
-    if (last_status == 0) {
-      last_time = millis();
-      last_status = 1;
-    } else if (millis() - last_time > setTimer) {
-      this->valveOpen_12 = true;
-      last_status = 0;
+/**
+ * this->state correspond to state of the valve
+ * state = 0 => close
+ * state = 1 => closing
+ * state = 2 => opening
+ * state = 3 => open
+ */
+int Valve::get() {
+  return this->state;
+}
+
+void Valve::loop(unsigned long time) {
+  if (this->lastCommand == 0) {
+    return;
+  }
+
+  if (time - this->lastCommand > VALVE_OPEN_TIME) {
+    if (this->state == VALVE_OPENING) {
+      this->state = VALVE_OPEN;
+    } else if (this->state == VALVE_CLOSING) {
+      this->state = VALVE_CLOSE;
     }
+    this->lastCommand = 0;
+  }
 }
 
-void Valve::askClose_13() {
-  digitalWrite(this->pin, HIGH);
-  this->valveOpen_12 = false;
+void Valve::reset() {
+  if (this->out.getInitState()) {
+    this->set(true);
+  } else {
+    this->set(false);
+  }
 }
 
-bool Valve::isOpen_12() {
-  return this->valveOpen_12;
+void Valve::set(bool state) {
+  this->out.set(state);
+  if (state && this->state != VALVE_OPEN ) {
+    this->lastCommand = millis();
+    this->state = VALVE_OPENING;
+  } else if (state == false && this->state != VALVE_CLOSE ) {
+    this->lastCommand = millis();
+    this->state = VALVE_CLOSING;
+  }
 }
-
-bool Valve::isClose_13() {
-  return !this->valveOpen_12;
-}
-

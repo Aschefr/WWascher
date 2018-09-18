@@ -1,48 +1,55 @@
 #include "pump.h"
 
-Pump::Pump(int pin_power1, int pin_power2) {
-  this->pin_power1 = pin_power1;
-  this->pin_power2 = pin_power2;
-
-  pinMode(this->pin_power1, OUTPUT);
-  pinMode(this->pin_power2, OUTPUT);
-
-  this->turnOff();
-}
-
-void Pump::turnHalfPower() {
-  digitalWrite(this->pin_power1, LOW);
-  digitalWrite(this->pin_power2, HIGH);
-  this->halfPower = true;
-  this->fullPower = false;
-}
-
-void Pump::turnFullPower() {
-  digitalWrite(this->pin_power1, LOW);
-  digitalWrite(this->pin_power2, LOW);
-  this->halfPower = true;
-  this->fullPower = true;
+Pump::Pump(int pin_power1, int pin_power2) : out1(pin_power1), out2(pin_power2) {
+  this->reset();
 }
 
 void Pump::turnOff() {
-  digitalWrite(this->pin_power1, HIGH);
-  digitalWrite(this->pin_power2, HIGH);
-  this->halfPower = false;
-  this->fullPower = false;
+  this->set(0);
+}
+
+void Pump::turnHalfPower() {
+  this->set(1);
+}
+
+void Pump::turnFullPower() {
+  this->set(2);
+}
+
+void Pump::set(int state) {
+  if (state <= 0) {
+    this->out1.set(false);
+    this->out2.set(false);
+  } else if (state == 1) {
+    this->out1.set(true);
+    this->out2.set(false);
+  } else {
+    this->out1.set(true);
+    this->out2.set(true);
+  }
+}
+
+int Pump::get() {
+  return this->out1.get() + this->out2.get();
+}
+
+void Pump::reset() {
+  this->out1.reset();
+  this->out2.reset();
 }
 
 bool Pump::isOn() {
-  return this->halfPower || this->fullPower;
+  return this->get() > 0;
 }
 
 bool Pump::isOff() {
-  return !this->halfPower && !this->fullPower;
+  return this->get() <= 0;
 }
 
 bool Pump::isHalfPower() {
-  return this->halfPower;
+  return this->get() == 1;
 }
 
 bool Pump::isFullPower() {
-  return this->fullPower;
+  return this->get() >= 2;
 }

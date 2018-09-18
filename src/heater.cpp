@@ -1,23 +1,21 @@
 #include "heater.h"
 
-Heater::Heater(int pin_temp) {
-  this->pin = pin_temp;
-
-  pinMode(this->pin, OUTPUT);
-
-  this->turnOff();
+Heater::Heater(int pin_temp) : Output(pin_temp) {
+  // no-op
 }
 
 void Heater::turnOn() {
-  digitalWrite(this->pin, LOW);
-  this->heaterStatus = true;
+  this->set(true);
 }
 
 void Heater::turnOff() {
-  digitalWrite(this->pin, HIGH);
-  this->heaterStatus = false;
+  this->set(false);
 }
 
-bool Heater::getStatus() {
-  return this->heaterStatus;
+bool Heater::isOn() {
+  return this->get();
+}
+
+bool Heater::isOff() {
+  return !this->get();
 }
