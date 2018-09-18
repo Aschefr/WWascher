@@ -17,7 +17,7 @@ class Valve {
     bool isClose_13();
 
   private: //Information par pompes
-    int pin_switchPos; //Pin de sortie pour basculement vanne
+    int pin; //Pin de sortie pour basculement vanne
 
     bool valveOpen_12;
 };

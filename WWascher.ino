@@ -1,6 +1,6 @@
-#include "pump.h"
-#include "heater.h"
-#include "nextion.h"
+#include "src/pump.h"
+#include "src/heater.h"
+#include "src/nextion.h"
 
 Pump* pump_001PO;
 Pump* pump_002PO;
