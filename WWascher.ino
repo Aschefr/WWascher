@@ -18,7 +18,7 @@ void setup() {
   pump_003PO = new Pump(30, 32);
   heater_0001CH = new Heater(22);
 
-  valve_001VK = new ValveTor(22);
+  valve_001VK = new ValveTor(34);
 
   // Serial.begin(9600);
   nextion = new Nextion(9600);
@@ -47,6 +47,8 @@ void loop() {
   if (nextion->available()) {
     String data = nextion->getCommand();
     if (data == "btn_init") {
+      valve_001VK->askOpen();
+
       if (heater_0001CH->get()) {
         heater_0001CH->turnOff();
         if (!heater_0001CH->get()) {
@@ -77,6 +79,10 @@ void loop() {
       }
     }
   }
+
+  if (valve_001VK->isOpen()) {
+        nextion->print("vis iniOK001VK,1");
+      }
 }
 
 // NexTouch *nex_listen_list[] =
