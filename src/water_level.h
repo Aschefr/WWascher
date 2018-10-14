@@ -1,5 +1,5 @@
 #ifndef DEF_WATERLEVEL
-#define DEF_WATERLEVE
+#define DEF_WATERLEVEL
 
 #include "Arduino.h"
 //Définition de l'objet "Pump"

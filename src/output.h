@@ -5,7 +5,7 @@
 
 class Output {
   public:
-    Output(int pin, bool initState = LOW, bool reverse = false);
+    Output(int pin, bool initState = LOW, bool reverse = true);
     bool get();
     bool getInitState();
     void set(bool state);

@@ -24,13 +24,18 @@ void Pump::set(int state) {
     this->out1.set(true);
     this->out2.set(false);
   } else {
-    this->out1.set(true);
+    this->out1.set(false);
     this->out2.set(true);
   }
 }
 
 int Pump::get() {
-  return this->out1.get() + this->out2.get();
+  //return this->out1.get() + this->out2.get();
+  if (out2.get() == 1) {
+    return 2;
+  } else {
+   return this->out1.get();
+  }
 }
 
 void Pump::reset() {

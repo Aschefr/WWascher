@@ -1,6 +1,6 @@
 #include "output.h"
 
-Output::Output(int pin, bool initState = LOW, bool reverse = false) {
+Output::Output(int pin, bool initState = LOW, bool reverse = true) {
   this->pin = pin;
   pinMode(this->pin, OUTPUT);
   this->initState = initState;

@@ -1,6 +1,6 @@
 #include "valve.h"
 
-Valve::Valve(int pin_temp, bool initState = LOW, bool reverse = false) : out(pin_temp, initState, reverse) {
+Valve::Valve(int pin_temp, bool initState = LOW, bool reverse = true) : out(pin_temp, initState, reverse) {
   this->reset();
 }
 
@@ -48,3 +48,19 @@ void Valve::set(bool state) {
     this->state = VALVE_CLOSING;
   }
 }
+
+/*void Valve::image() {
+  if (this->state == 0) {
+    nextion->print("img001VK.pic=21");
+  } else if (this->state == 1)
+  {
+    nextion->print("img001VK.pic=23");
+  } else if (this->state == 2)
+  {
+    nextion->print("img001VK.pic=22");
+  } else if (this->state == 3)
+  {
+    nextion->print("img001VK.pic=24");
+  }
+}
+*/
