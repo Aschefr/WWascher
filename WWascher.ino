@@ -3,7 +3,29 @@
 #include "src/valveTor.h"
 #include "src/valveTri.h"
 #include "src/nextion.h"
+#include <Nextion.h>          // Nextion Library
+#include <SoftwareSerial.h>   // Library for Software Serial Port
 
+SoftwareSerial HMISerial(14, 15);  // Nextion TX to pin 14 and RX to pin 15 of Arduino
+
+//Nextion declaration of all inputs :
+// This part is used to declare all the objects we can receive from the Nextion Display
+// (page, ID, Object name)
+NexButton btn001VK_Open = NexButton(15, 3, "btn001VK_Open");  // Manual mode : "Open 001VK"
+NexButton btn001VK_Close = NexButton(15, 4, "btn001VK_Close"); // Manual mode : "Close 001VK"
+
+
+// This part is used to list the possible touchscreen events in an Array
+NexTouch *nextion_touch_events[] =
+{
+  &btn001VK_Open,  // Page 15
+  &btn001VK_Close,
+
+  NULL  // End string
+};
+
+
+//Holblin Stuff
 Pump* pump_001PO;
 Pump* pump_002PO;
 Pump* pump_003PO;
@@ -18,9 +40,21 @@ ValveTri* valve_005VK;
 ValveTri* valve_006VK;
 ValveTri* valve_007VK;
 
-int in001SN = 5;
-int in002SN = 6;
-int in001SP = 7;
+int in001SN = 4;
+int in002SN = 5;
+int in001SP = 6;
+
+//  This part is for the different functions for Main Screen Touch events
+void btn001VK_OpenPushCallback(void *ptr)
+{
+   valve_001VK->askOpen();
+}
+
+void btn001VK_ClosePushCallback(void *ptr)
+{
+   valve_001VK->askClose();
+}
+
 
 void setup() {
   pump_001PO = new Pump(29, 27);
@@ -43,6 +77,18 @@ void setup() {
 
   // Serial.begin(9600);
   nextion = new Nextion(9600);
+
+  HMISerial.begin(9600);  // Start Software Serial at 9600bauds
+
+  nexInit();  //  Nextion Display initalize
+
+// Link the touchscreen events to their relative functions in the code
+// attachPush for press events or attachPop for release events
+  btn001VK_Open.attachPush(btn001VK_OpenPushCallback);
+  btn001VK_Close.attachPop(btn001VK_ClosePushCallback);
+
+
+
 }
 
 bool trans_001VK_0 = false;
@@ -103,6 +149,9 @@ bool trans_in001SP_1 = false;
 
 
 void loop() {
+
+  nexLoop(nextion_touch_events);  // Check for any touch event and run the associated function
+
   /*pump1->turnFullPower();
   delay(500);
   if (pump1->isOn()) {
