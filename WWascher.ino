@@ -18,6 +18,10 @@ ValveTri* valve_005VK;
 ValveTri* valve_006VK;
 ValveTri* valve_007VK;
 
+int in001SN = 5;
+int in002SN = 6;
+int in001SP = 7;
+
 void setup() {
   pump_001PO = new Pump(29, 27);
   pump_002PO = new Pump(25, 23);
@@ -31,6 +35,11 @@ void setup() {
   valve_005VK = new ValveTri(28);
   valve_006VK = new ValveTri(26);
   valve_007VK = new ValveTri(24);
+
+//Test de lecture des entrées
+  pinMode(in001SN, INPUT);
+  pinMode(in002SN, INPUT);
+  pinMode(in001SP, INPUT);
 
   // Serial.begin(9600);
   nextion = new Nextion(9600);
@@ -85,6 +94,12 @@ bool trans_003PO_2 = false;
 
 bool alive = false;
 
+bool trans_in001SN_0 = false;
+bool trans_in001SN_1 = false;
+bool trans_in002SN_0 = false;
+bool trans_in002SN_1 = false;
+bool trans_in001SP_0 = false;
+bool trans_in001SP_1 = false;
 
 
 void loop() {
@@ -143,6 +158,43 @@ void loop() {
     }
   }
 //AFFICHAGE IHM
+
+  //in001SN
+  if (trans_in001SN_0 == false && digitalRead(in001SN) == 0) {
+    nextion->print("img001SN.pic=1");
+    trans_in001SN_0=true;
+    trans_in001SN_1=false;
+  } else if (trans_in001SN_1 == false && digitalRead(in001SN) == 1)
+  {
+    nextion->print("img001SN.pic=2");
+    trans_in001SN_0=false;
+    trans_in001SN_1=true;
+  }
+
+  //in002SN
+  if (trans_in002SN_0 == false && digitalRead(in002SN) == 0) {
+    nextion->print("img002SN.pic=1");
+    trans_in002SN_0=true;
+    trans_in002SN_1=false;
+  } else if (trans_in002SN_1 == false && digitalRead(in002SN) == 1)
+  {
+    nextion->print("img002SN.pic=2");
+    trans_in002SN_0=false;
+    trans_in002SN_1=true;
+  }
+
+  //in001SP
+  if (trans_in001SP_0 == false && digitalRead(in001SP) == 0) {
+    nextion->print("img001SP.pic=19");
+    trans_in001SP_0=true;
+    trans_in001SP_1=false;
+  } else if (trans_in001SP_1 == false && digitalRead(in001SP) == 1)
+  {
+    nextion->print("img001SP.pic=20");
+    trans_in001SP_0=false;
+    trans_in001SP_1=true;
+  }
+
   //001VK
   if (trans_001VK_0 == false && valve_001VK->get() == 0) {
     nextion->print("img001VK.pic=21");
