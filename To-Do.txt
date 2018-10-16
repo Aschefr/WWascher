@@ -1,1 +1,11 @@
-A créer : Hearbeat system (affichage d'un texte "../." par exemple)
+A créer : 
+
+- Heartbeat system (affichage d'un texte "../." par exemple)
+- A la détection du heartbeat, passer à la page "Menu"
+- Performance de communication Nextion et Arduino très mauvaise (beaucoup de miss-clic)
+- Animation des éléments sur le synoptique
+- Inverser le fonctionnement de certaines vannes (reverse)
+- Programmation des routines...
+- ...avec valeurs réglable sur IHM (temps de fonctionnement des pompes nottament)
+- Programmation des cycles (enchainement des routines)
+- Programmation du cycle d'auto-diagnostique
