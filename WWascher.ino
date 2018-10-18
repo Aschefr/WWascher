@@ -150,7 +150,7 @@ bool trans_in001SP_1 = false;
 
 void loop() {
 
-  nexLoop(nextion_touch_events);  // Check for any touch event and run the associated function
+//TESTING NEW COM :// nexLoop(nextion_touch_events);  // Check for any touch event and run the associated function
 
   /*pump1->turnFullPower();
   delay(500);
@@ -210,24 +210,24 @@ void loop() {
 
   //in001SN
   if (trans_in001SN_0 == false && digitalRead(in001SN) == 0) {
-    nextion->print("img001SN.pic=1");
+    nextion->print("img001BA.pic=1");
     trans_in001SN_0=true;
     trans_in001SN_1=false;
   } else if (trans_in001SN_1 == false && digitalRead(in001SN) == 1)
   {
-    nextion->print("img001SN.pic=2");
+    nextion->print("img001BA.pic=2");
     trans_in001SN_0=false;
     trans_in001SN_1=true;
   }
 
   //in002SN
   if (trans_in002SN_0 == false && digitalRead(in002SN) == 0) {
-    nextion->print("img002SN.pic=1");
+    nextion->print("img001BA.pic=1");
     trans_in002SN_0=true;
     trans_in002SN_1=false;
   } else if (trans_in002SN_1 == false && digitalRead(in002SN) == 1)
   {
-    nextion->print("img002SN.pic=2");
+    nextion->print("img001BA.pic=2");
     trans_in002SN_0=false;
     trans_in002SN_1=true;
   }
