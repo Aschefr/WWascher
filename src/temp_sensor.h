@@ -1,9 +1,10 @@
 #ifndef DEF_TEMPSENSOR
 #define DEF_TEMPSENSOR
 #define SENSOR_ACCURACY 0.1 // precision de la sonde en degree celsuis
-#define AVEREGARING 50 // Nombre de valeur pour moyenne température
+#define AVERAGING 50 // Nombre de valeur pour moyenne température
 
 #include "Arduino.h"
+
 //Définition de l'objet "Pump"
 class TempSensor {
   public: //Disponible pour tout le monde (public)

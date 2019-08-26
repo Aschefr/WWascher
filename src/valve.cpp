@@ -6,10 +6,10 @@ Valve::Valve(int pin_temp, bool initState = LOW, bool reverse = true) : out(pin_
 
 /**
  * this->state correspond to state of the valve
- * state = 0 => close
+ * state = 0 => close / 1-2
  * state = 1 => closing
  * state = 2 => opening
- * state = 3 => open
+ * state = 3 => open / 1-3
  */
 int Valve::get() {
   return this->state;

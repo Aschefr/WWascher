@@ -9,7 +9,7 @@
 #define VALVE_CLOSING 1
 #define VALVE_OPENING 2
 #define VALVE_OPEN 3
-#define VALVE_OPEN_TIME 3000
+#define VALVE_OPEN_TIME 3500
 
 //Définition de l'objet
 class Valve {
