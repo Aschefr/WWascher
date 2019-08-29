@@ -486,122 +486,26 @@ void Synopt_refresh_objects() {
 
   static int cacheValve_001VK = -1;
   cacheValve_001VK = Synopt_refresh_valve(valve_001VK, cacheValve_001VK, "img001VK", 21, 23, 22, 24);
-  //001VK
-  // if (valve_001VK->isClose()) {
-  //   nextion->print("img001VK.pic=21");
-  // } else if (valve_001VK->isClosing()) {
-  //   nextion->print("img001VK.pic=23");
-  // } else if (valve_001VK->isOpening()) {
-  //   nextion->print("img001VK.pic=22");
-  // } else if (valve_001VK->isOpen()) {
-  //   nextion->print("img001VK.pic=24");
-  // }
 
-  //002VK
-  if (valve_002VK->get() == 0) {
-    nextion->print("img002VK.pic=21");
-  }
-  if (valve_002VK->get() == 1)
-  {
-    nextion->print("img002VK.pic=23");
-  }
-  if (valve_002VK->get() == 2)
-  {
-    nextion->print("img002VK.pic=22");
-  }
-  if (valve_002VK->get() == 3)
-  {
-    nextion->print("img002VK.pic=24");
-  }
+  static int cacheValve_002VK = -1;
+  cacheValve_002VK = Synopt_refresh_valve(valve_002VK, cacheValve_002VK, "img002VK", 21, 23, 22, 24);
 
-//003VK
-  if (valve_003VK->get() == 0) {
-    nextion->print("img003VK.pic=21");
-  }
-  if (valve_003VK->get() == 1)
-  {
-    nextion->print("img003VK.pic=23");
-  }
-  if (valve_003VK->get() == 2)
-  {
-    nextion->print("img003VK.pic=22");
-  }
-  if (valve_003VK->get() == 3)
-  {
-    nextion->print("img003VK.pic=24");
-  }
+  static int cacheValve_003VK = -1;
+  cacheValve_003VK = Synopt_refresh_valve(valve_003VK, cacheValve_003VK, "img003VK", 21, 23, 22, 24);
 
-//004VK
-  if (valve_004VK->get() == 0) {
-    nextion->print("img004VK.pic=21");
-  }
-  if (valve_004VK->get() == 1)
-  {
-    nextion->print("img004VK.pic=23");
-  }
-  if (valve_004VK->get() == 2)
-  {
-    nextion->print("img004VK.pic=22");
-  }
-  if (valve_004VK->get() == 3)
-  {
-    nextion->print("img004VK.pic=24");
-  }
+  static int cacheValve_004VK = -1;
+  cacheValve_004VK = Synopt_refresh_valve(valve_004VK, cacheValve_004VK, "img004VK", 21, 23, 22, 24);
 
-//005VK
-  if (valve_005VK->get() == 0) {
-    nextion->print("img005VK.pic=28");
-  }
-  if (valve_005VK->get() == 1)
-  {
-    nextion->print("img005VK.pic=26");
-  }
-  if (valve_005VK->get() == 2)
-  {
-    nextion->print("img005VK.pic=27");
-  }
-  if (valve_005VK->get() == 3)
-  {
-    nextion->print("img005VK.pic=25");
-  }
+  static int cacheValve_005VK = -1;
+  cacheValve_005VK = Synopt_refresh_valve(valve_005VK, cacheValve_005VK, "img005VK", 28, 26, 27, 25);
 
-//006VK
-  if (valve_006VK->get() == 0)
-  {
-    nextion->print("img006VK.pic=6");
-  }
-  else if (valve_006VK->get() == 1)
-  {
-    nextion->print("img006VK.pic=4");
-  }
-  else if (valve_006VK->get() == 2)
-  {
-    nextion->print("img006VK.pic=5");
-  }
-  else if (valve_006VK->get() == 3)
-  {
-    nextion->print("img006VK.pic=3");
-  }
+  static int cacheValve_006VK = -1;
+  cacheValve_006VK = Synopt_refresh_valve(valve_006VK, cacheValve_006VK, "img006VK", 6, 4, 5, 3);
 
-//007VK
-  if (valve_007VK->get() == 0)
-  {
-    nextion->print("img007VK.pic=6");
-  }
-  else if (valve_007VK->get() == 1)
-  {
-    nextion->print("img007VK.pic=4");
-  }
-  else if (valve_007VK->get() == 2)
-  {
-    nextion->print("img007VK.pic=5");
-  }
-  else if (valve_007VK->get() == 3)
-  {
-    nextion->print("img007VK.pic=3");
-  }
+  static int cacheValve_007VK = -1;
+  cacheValve_007VK = Synopt_refresh_valve(valve_007VK, cacheValve_007VK, "img007VK", 6, 4, 5, 3);
 
-//001PO
+  //001PO
   if (pump_001PO->get() == 0) {
     nextion->print("img001PO.pic=29");
   }
@@ -614,7 +518,7 @@ void Synopt_refresh_objects() {
     nextion->print("img001PO.pic=31");
   }
 
-//002PO
+  //002PO
   if (pump_002PO->get() == 0)
   {
     nextion->print("img002PO.pic=29");
@@ -628,7 +532,7 @@ void Synopt_refresh_objects() {
     nextion->print("img002PO.pic=31");
   }
 
-//003PO
+  //003PO
   if (pump_003PO->get() == 0)
   {
     nextion->print("img003PO.pic=9");
