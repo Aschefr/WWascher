@@ -459,6 +459,37 @@ int Synopt_refresh_valve(Valve* valve, int lastStatus, String name, int pic1, in
   return newStatus;
 }
 
+int Synopt_refresh_pump(Pump* pump, int lastStatus, String name, int pic1, int pic2, int pic3) {
+  int newStatus = pump->get();
+  if (lastStatus == newStatus) {
+    return newStatus;
+  }
+  switch (newStatus) {
+    case 0:
+      nextion->print(name + ".pic=" + String(pic1));
+      break;
+    case 1:
+      nextion->print(name + ".pic=" + String(pic2));
+      break;
+    case 2:
+      nextion->print(name + ".pic=" + String(pic3));
+      break;
+  }
+  return newStatus;
+}
+
+int cacheValve_001VK = -1;
+int cacheValve_002VK = -1;
+int cacheValve_003VK = -1;
+int cacheValve_004VK = -1;
+int cacheValve_005VK = -1;
+int cacheValve_006VK = -1;
+int cacheValve_007VK = -1;
+
+int cachePump_001PO = -1;
+int cachePump_002PO = -1;
+int cachePump_003PO = -1;
+
 void Synopt_refresh_objects() {
 
   //in001SN
@@ -484,71 +515,20 @@ void Synopt_refresh_objects() {
     nextion->print("img001SP.pic=20");
   }
 
-  static int cacheValve_001VK = -1;
   cacheValve_001VK = Synopt_refresh_valve(valve_001VK, cacheValve_001VK, "img001VK", 21, 23, 22, 24);
-
-  static int cacheValve_002VK = -1;
   cacheValve_002VK = Synopt_refresh_valve(valve_002VK, cacheValve_002VK, "img002VK", 21, 23, 22, 24);
-
-  static int cacheValve_003VK = -1;
   cacheValve_003VK = Synopt_refresh_valve(valve_003VK, cacheValve_003VK, "img003VK", 21, 23, 22, 24);
-
-  static int cacheValve_004VK = -1;
   cacheValve_004VK = Synopt_refresh_valve(valve_004VK, cacheValve_004VK, "img004VK", 21, 23, 22, 24);
-
-  static int cacheValve_005VK = -1;
   cacheValve_005VK = Synopt_refresh_valve(valve_005VK, cacheValve_005VK, "img005VK", 28, 26, 27, 25);
-
-  static int cacheValve_006VK = -1;
   cacheValve_006VK = Synopt_refresh_valve(valve_006VK, cacheValve_006VK, "img006VK", 6, 4, 5, 3);
-
-  static int cacheValve_007VK = -1;
   cacheValve_007VK = Synopt_refresh_valve(valve_007VK, cacheValve_007VK, "img007VK", 6, 4, 5, 3);
 
-  //001PO
-  if (pump_001PO->get() == 0) {
-    nextion->print("img001PO.pic=29");
-  }
-  else if (pump_001PO->get() == 1)
-  {
-    nextion->print("img001PO.pic=30");
-  }
-  else if (pump_001PO->get() > 1)
-  {
-    nextion->print("img001PO.pic=31");
-  }
-
-  //002PO
-  if (pump_002PO->get() == 0)
-  {
-    nextion->print("img002PO.pic=29");
-  }
-  else if (pump_002PO->get() == 1)
-  {
-    nextion->print("img002PO.pic=30");
-  }
-  else if (pump_002PO->get() > 1)
-  {
-    nextion->print("img002PO.pic=31");
-  }
-
-  //003PO
-  if (pump_003PO->get() == 0)
-  {
-    nextion->print("img003PO.pic=9");
-  }
-  else if (pump_003PO->get() == 1)
-  {
-    nextion->print("img003PO.pic=10");
-  }
-  else if (pump_003PO->get() > 1)
-  {
-    nextion->print("img003PO.pic=11");
-  }
+  cachePump_001PO = Synopt_refresh_pump(pump_001PO, cachePump_001PO, "img001PO", 29, 30, 31);
+  cachePump_002PO = Synopt_refresh_pump(pump_002PO, cachePump_002PO, "img002PO", 29, 30, 31);
+  cachePump_003PO = Synopt_refresh_pump(pump_003PO, cachePump_003PO, "img003PO", 9, 10, 11);
 }
 
-void resetImages()
-{
+void resetImages() {
   trans_lignage_img87 = false;
   trans_lignage_img88 = false;
   trans_lignage_img89 = false;
@@ -564,4 +544,16 @@ void resetImages()
   trans_lignage_img99 = false;
   trans_lignage_img100 = false;
   trans_lignage_img101 = false;
+
+  cacheValve_001VK = -1;
+  cacheValve_002VK = -1;
+  cacheValve_003VK = -1;
+  cacheValve_004VK = -1;
+  cacheValve_005VK = -1;
+  cacheValve_006VK = -1;
+  cacheValve_007VK = -1;
+
+  cachePump_001PO = -1;
+  cachePump_002PO = -1;
+  cachePump_003PO = -1;
 }
