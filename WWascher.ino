@@ -1,84 +1,121 @@
-#include "src/pump.h"
-#include "src/heater.h"
-#include "src/valveTor.h"
-#include "src/valveTri.h"
-#include "src/nextion.h"
+#include "src/pump.h"  // OK
+#include "src/heater.h" // KO
+#include "src/valveTor.h" // OK
+#include "src/valveTri.h" // OK
+
+#include "src/waterLevel.h" // OK
+#include "src/pressureSwitch.h" // OK
+
+#include "src/nextion.h" // Mehhh
 
 //Holblin Stuff
 Pump* pump_001PO;
 Pump* pump_002PO;
 Pump* pump_003PO;
-Heater* heater_0001CH;
+Heater* heater_001CH;
 Nextion* nextion;
- ValveTor* valve_001VK;
+ValveTor* valve_001VK;
 ValveTor* valve_002VK;
 ValveTor* valve_003VK;
 ValveTor* valve_004VK;
 ValveTri* valve_005VK;
 ValveTri* valve_006VK;
 ValveTri* valve_007VK;
-
-int in001SN = 4;
-int in002SN = 5;
-int in001SP = 6;
+PressureSwitch* in001SP;
+WaterLevel* in001SN;
+WaterLevel* in002SN;
 
 bool alive = false;
+
+//Animation
+
+bool trans_lignage_img87 = false;
+bool trans_lignage_img88 = false;
+bool trans_lignage_img89 = false;
+bool trans_lignage_img90 = false;
+bool trans_lignage_img91 = false;
+bool trans_lignage_img92 = false;
+bool trans_lignage_img93 = false;
+bool trans_lignage_img94 = false;
+bool trans_lignage_img95 = false;
+bool trans_lignage_img96 = false;
+bool trans_lignage_img97 = false;
+bool trans_lignage_img98 = false;
+bool trans_lignage_img99 = false;
+bool trans_lignage_img100 = false;
+bool trans_lignage_img101 = false;
+
 
 void setup() {
   pump_001PO = new Pump(29, 27);
   pump_002PO = new Pump(25, 23);
   pump_003PO = new Pump(10, 11);
-  heater_0001CH = new Heater(22);
+  heater_001CH = new Heater(22);
 
   valve_001VK = new ValveTor(36);
   valve_002VK = new ValveTor(34);
   valve_003VK = new ValveTor(32);
   valve_004VK = new ValveTor(30);
-  valve_005VK = new ValveTri(28);
-  valve_006VK = new ValveTri(26);
-  valve_007VK = new ValveTri(24);
+  valve_005VK = new ValveTri(28, 1);
+  valve_006VK = new ValveTri(26, 1);
+  valve_007VK = new ValveTri(24, 1, 1);
 
   //Test de lecture des entrées
-  pinMode(in001SN, INPUT);
-  pinMode(in002SN, INPUT);
-  pinMode(in001SP, INPUT);
+  in001SP = new PressureSwitch(6);
+  in001SN = new WaterLevel(5);
+  in002SN = new WaterLevel(4);
+
+  Serial.begin(9600);
 
   // Serial.begin(9600);
   nextion = new Nextion(9600);
 }
 
-
+unsigned long last_time_debug = 0;
 void loop() {
 
-//TESTING NEW COM :// nexLoop(nextion_touch_events);  // Check for any touch event and run the associated function
-
-  /*pump1->turnFullPower();
-  delay(500);
-  if (pump1->isOn()) {
-  	pump1->turnOff();
-	  delay(500);
-  }
-  pump1->turnHalfPower();
-  delay(500); */
-
-  // heater_0001CH->turnOn();
+  // heater_001CH->turnOn();
   // delay(500);
-  // if (heater_0001CH->getStatus()) {
-  //   heater_0001CH->turnOff();
+  // if (heater_001CH->getStatus()) {
+  //   heater_001CH->turnOff();
   //   delay(500);
   // }
 
   unsigned long time = millis();
+
+  Serial.print("Loop time: ");
+  Serial.println(time - last_time_debug);
+  last_time_debug = time;
+
   valve_001VK->loop(time);
+  valve_002VK->loop(time);
+  valve_003VK->loop(time);
+  valve_004VK->loop(time);
+  valve_005VK->loop(time);
+  valve_006VK->loop(time);
+  valve_007VK->loop(time);
 
-  if (nextion->available()) {
+  in001SP->loop(time);
+
+  while (nextion->available()) {
     String data = nextion->getCommand();
-    if (data == "btn_init") {
-      valve_001VK->askOpen();
+    Serial.print("Nextion command: ");
+    Serial.println(data);
 
-      if (heater_0001CH->get()) {
-        heater_0001CH->turnOff();
-        if (!heater_0001CH->get()) {
+
+
+    if (data == "btn_init") {
+      valve_001VK->askClose();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askClose();
+      valve_005VK->askPos13();
+      valve_006VK->askPos13();
+      valve_007VK->askPos13();
+
+      if (heater_001CH->get()) {
+        heater_001CH->turnOff();
+        if (!heater_001CH->get()) {
           nextion->print("vis iniOK001CH,1");
         }
       }
@@ -100,90 +137,500 @@ void loop() {
           nextion->print("vis iniOK003PO,1");
         }
       }
-      if (!heater_0001CH->get() && pump_001PO->isOff() && pump_002PO->isOff() && pump_003PO->isOff()){
+      if (!heater_001CH->get() && pump_001PO->isOff() && pump_002PO->isOff() && pump_003PO->isOff() && valve_001VK->get() == 0 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_006VK->get() == 3 && valve_007VK->get() == 3) {
         nextion->print("vis btn_retour,1");
         nextion->print("vis imgRuning,0");
+        nextion->print("vis iniOK001PO,1");
+        nextion->print("vis iniOK002PO,1");
+        nextion->print("vis iniOK003PO,1");
+        nextion->print("vis iniOK001CH,1");
+        nextion->print("vis iniOK001VK,1");
+        nextion->print("vis iniOK002VK,1");
+        nextion->print("vis iniOK003VK,1");
+        nextion->print("vis iniOK004VK,1");
+        nextion->print("vis iniOK005VK,1");
+        nextion->print("vis iniOK006VK,1");
+        nextion->print("vis iniOK007VK,1");
+        nextion->print("vis iniOK001SN,1");
+        nextion->print("vis iniOK002SN,1");
+        nextion->print("vis iniOK001SP,1");
       }
     }
 
-    else if (data == "Manu_001VK_Open") {
+//ACTION EN MANUEL :
+
+    if (data == "Manu_001VK_Open") {
       valve_001VK->askOpen();
     }
-    else if (data == "Manu_001VK_Close") {
+    if (data == "Manu_001VK_Close") {
       valve_001VK->askClose();
     }
-    else if (data == "Manu_002VK_Open") {
+    if (data == "Manu_002VK_Open") {
       valve_002VK->askOpen();
     }
-    else if (data == "Manu_002VK_Close") {
+    if (data == "Manu_002VK_Close") {
       valve_002VK->askClose();
     }
-    else if (data == "Manu_003VK_Open") {
+    if (data == "Manu_003VK_Open") {
       valve_003VK->askOpen();
     }
-    else if (data == "Manu_003VK_Close") {
+    if (data == "Manu_003VK_Close") {
       valve_003VK->askClose();
     }
-    else if (data == "Manu_004VK_Open") {
+    if (data == "Manu_004VK_Open") {
       valve_004VK->askOpen();
     }
-    else if (data == "Manu_004VK_Close") {
+    if (data == "Manu_004VK_Close") {
       valve_004VK->askClose();
     }
-    else if (data == "Manu_005VK_Open") {
+    if (data == "Manu_005VK_Open") {
       valve_005VK->askPos12();
     }
-    else if (data == "Manu_005VK_Close") {
+    if (data == "Manu_005VK_Close") {
       valve_005VK->askPos13();
     }
-    else if (data == "Manu_006VK_Open") {
+    if (data == "Manu_006VK_Open") {
       valve_006VK->askPos12();
     }
-    else if (data == "Manu_006VK_Close") {
+    if (data == "Manu_006VK_Close") {
       valve_006VK->askPos13();
     }
-    else if (data == "Manu_007VK_Open") {
+    if (data == "Manu_007VK_Open") {
       valve_007VK->askPos12();
     }
-    else if (data == "Manu_007VK_Close") {
+    if (data == "Manu_007VK_Close") {
       valve_007VK->askPos13();
     }
 
-    else if (data == "Manu_001PO_Low") {
+    if (data == "Manu_001PO_Low") {
       pump_001PO->turnHalfPower();
     }
-    else if (data == "Manu_001PO_High") {
+    if (data == "Manu_001PO_High") {
       pump_001PO->turnFullPower();
     }
-    else if (data == "Manu_001PO_Off") {
+    if (data == "Manu_001PO_Off" || in001SP->get()) {
       pump_001PO->turnOff();
     }
 
-    else if (data == "Manu_002PO_Low") {
+    if (data == "Manu_002PO_Low") {
       pump_002PO->turnHalfPower();
     }
-    else if (data == "Manu_002PO_High") {
+    if (data == "Manu_002PO_High") {
       pump_002PO->turnFullPower();
     }
-    else if (data == "Manu_002PO_Off") {
+    if (data == "Manu_002PO_Off" || in001SP->get()) {
       pump_002PO->turnOff();
     }
 
-    else if (data == "Manu_003PO_Low") {
+    if (data == "Manu_003PO_Low") {
       pump_003PO->turnHalfPower();
     }
-    else if (data == "Manu_003PO_High") {
+    if (data == "Manu_003PO_High") {
       pump_003PO->turnFullPower();
     }
-    else if (data == "Manu_003PO_Off") {
+    if (data == "Manu_003PO_Off" || in001SP->get()) {
       pump_003PO->turnOff();
     }
-    else if (data == "question_alive") {
-      nextion->print("page Menu");
-      alive = true;
+    if (data == "question_alive") {
+      nextion->print("page 1");
     }
-    else {
-      // If you fall here, you need to implement it
+
+//ETABLISSEMENT DIRECT DE LIGNAGES :
+
+    if (data == "Lign_87") {
+      valve_001VK->askOpen();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askOpen();
+      valve_005VK->askPos13();
+      valve_006VK->askPos13();
+      valve_007VK->askPos12();
     }
+    if (data == "Lign_88") {
+      valve_001VK->askClose();
+      valve_002VK->askOpen();
+      valve_003VK->askOpen();
+      valve_004VK->askClose();
+      valve_005VK->askPos13();
+      valve_006VK->askPos13();
+      valve_007VK->askPos12();
+    }
+    if (data == "Lign_89") {
+      valve_001VK->askOpen();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askOpen();
+      valve_005VK->askPos12();
+      valve_006VK->askPos12();
+      valve_007VK->askPos13();
+    }
+    if (data == "Lign_90") {
+      valve_001VK->askClose();
+      valve_002VK->askOpen();
+      valve_003VK->askOpen();
+      valve_004VK->askClose();
+      valve_005VK->askPos12();
+      valve_006VK->askPos12();
+      valve_007VK->askPos13();
+    }
+    if (data == "Lign_91") {
+      valve_001VK->askOpen();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askOpen();
+      valve_005VK->askPos13();
+      valve_007VK->askPos13();
+    }
+    if (data == "Lign_93") {
+      valve_001VK->askOpen();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askOpen();
+      valve_005VK->askPos12();
+      valve_006VK->askPos13();
+      valve_007VK->askPos13();
+    }
+    if (data == "Lign_94") {
+      valve_001VK->askClose();
+      valve_002VK->askOpen();
+      valve_003VK->askOpen();
+      valve_004VK->askClose();
+      valve_005VK->askPos12();
+      valve_006VK->askPos13();
+      valve_007VK->askPos13();
+    }
+    if (data == "Lign_95") {
+      valve_001VK->askOpen();
+      valve_002VK->askClose();
+      valve_003VK->askClose();
+      valve_004VK->askOpen();
+      valve_005VK->askPos13();
+      valve_007VK->askPos13();
+    }
+
+
+
+//BOUCLE DE RAFRAICHISSEMENT POUR L'ANIMATION SYNOPTIQUE DE L"IHM :
+    if (data == "Synopt_refresh")
+    {
+      //AFFICHAGE IHM
+
+      //ANIMATION DES LIGNAGES
+      //Lignage img87 (003PO sens 1 vers purge)
+
+      if (valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+      {
+        if (!trans_lignage_img87)
+        {
+          nextion->print("lignage.pic=87");
+          resetImages();
+          trans_lignage_img87 = true;
+        }
+        //Lignage img88 (003PO sens 2 vers purge)
+      }
+      else if (valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+      {
+        if (!trans_lignage_img88) {
+          nextion->print("lignage.pic=88");
+          resetImages();
+          trans_lignage_img88 = true;
+        }
+        //Lignage img89 (001PO sens 1 vers 001BA)
+      }
+      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img89) {
+          nextion->print("lignage.pic=89");
+          resetImages();
+          trans_lignage_img89 = true;
+        }
+        //Lignage img90 (001PO sens 2 vers 001BA)
+      }
+      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img90) {
+          nextion->print("lignage.pic=90");
+          resetImages();
+          trans_lignage_img90 = true;
+        }
+        //Lignage img91 (001PO sens 1 vers purge)
+      }
+      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img91) {
+          nextion->print("lignage.pic=91");
+          resetImages();
+          trans_lignage_img91 = true;
+        }
+        //Lignage img92 (001PO sens 2 vers purge)
+      }
+      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img92) {
+          nextion->print("lignage.pic=92");
+          resetImages();
+          trans_lignage_img92 = true;
+        }
+        //Lignage img93 (002PO sens 1 vers 002BA)
+      }
+      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
+      {
+       if (!trans_lignage_img93) {
+          nextion->print("lignage.pic=93");
+          resetImages();
+          trans_lignage_img93 = true;
+        }
+        //Lignage img94 (002PO sens 2 vers 002BA)
+      }
+      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img94) {
+          nextion->print("lignage.pic=94");
+          resetImages();
+          trans_lignage_img94 = true;
+        }
+        //Lignage img95 (002PO sens 1 vers purge)
+      }
+      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img95) {
+          nextion->print("lignage.pic=95");
+          resetImages();
+          trans_lignage_img95 = true;
+        }
+        //Lignage img96 (002PO sens 2 vers purge)
+      }
+      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+      {
+        if (!trans_lignage_img96) {
+          nextion->print("lignage.pic=96");
+          resetImages();
+          trans_lignage_img96 = true;
+        }
+        //Lignage img97 (003PO sens 0 vers purge)
+      }
+      else if (valve_001VK->get() == 3 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+      {
+        if (!trans_lignage_img97) {
+          nextion->print("lignage.pic=97");
+          resetImages();
+          trans_lignage_img97 = true;
+        }
+      }
+      else
+      {
+        if (!trans_lignage_img101)
+        {
+          nextion->print("lignage.pic=101");
+          resetImages();
+          trans_lignage_img101 = true;
+        }
+      }
+
+
+
+    //in001SN
+      if (!in001SN->get()) {
+        nextion->print("img001BA.pic=1");
+      } else {
+        nextion->print("img001BA.pic=2");
+      }
+
+    //in002SN
+      if (!in002SN->get()) {
+        nextion->print("img002BA.pic=1");
+        nextion->print("vis img001CH,1");
+      } else {
+        nextion->print("img002BA.pic=2");
+        nextion->print("vis img001CH,1");
+      }
+
+
+      //in001SP
+      if (!in001SP->get()) {
+        nextion->print("img001SP.pic=19");
+      } else {
+        nextion->print("img001SP.pic=20");
+      }
+
+    //001VK
+    if (valve_001VK->isClose()) {
+      nextion->print("img001VK.pic=21");
+    } else if (valve_001VK->isClosing()) {
+      nextion->print("img001VK.pic=23");
+    } else if (valve_001VK->isOpening()) {
+      nextion->print("img001VK.pic=22");
+    } else if (valve_001VK->isOpen()) {
+      nextion->print("img001VK.pic=24");
+    }
+
+    //002VK
+      if (valve_002VK->get() == 0) {
+        nextion->print("img002VK.pic=21");
+      }
+      if (valve_002VK->get() == 1)
+      {
+        nextion->print("img002VK.pic=23");
+      }
+      if (valve_002VK->get() == 2)
+      {
+        nextion->print("img002VK.pic=22");
+      }
+      if (valve_002VK->get() == 3)
+      {
+        nextion->print("img002VK.pic=24");
+      }
+
+    //003VK
+      if (valve_003VK->get() == 0) {
+        nextion->print("img003VK.pic=21");
+      }
+      if (valve_003VK->get() == 1)
+      {
+        nextion->print("img003VK.pic=23");
+      }
+      if (valve_003VK->get() == 2)
+      {
+        nextion->print("img003VK.pic=22");
+      }
+      if (valve_003VK->get() == 3)
+      {
+        nextion->print("img003VK.pic=24");
+      }
+
+    //004VK
+      if (valve_004VK->get() == 0) {
+        nextion->print("img004VK.pic=21");
+      }
+      if (valve_004VK->get() == 1)
+      {
+        nextion->print("img004VK.pic=23");
+      }
+      if (valve_004VK->get() == 2)
+      {
+        nextion->print("img004VK.pic=22");
+      }
+      if (valve_004VK->get() == 3)
+      {
+        nextion->print("img004VK.pic=24");
+      }
+
+    //005VK
+      if (valve_005VK->get() == 0) {
+        nextion->print("img005VK.pic=28");
+      }
+      if (valve_005VK->get() == 1)
+      {
+        nextion->print("img005VK.pic=26");
+      }
+      if (valve_005VK->get() == 2)
+      {
+        nextion->print("img005VK.pic=27");
+      }
+      if (valve_005VK->get() == 3)
+      {
+        nextion->print("img005VK.pic=25");
+      }
+
+    //006VK
+      if (valve_006VK->get() == 0)
+      {
+        nextion->print("img006VK.pic=6");
+      }
+      else if (valve_006VK->get() == 1)
+      {
+        nextion->print("img006VK.pic=4");
+      }
+      else if (valve_006VK->get() == 2)
+      {
+        nextion->print("img006VK.pic=5");
+      }
+      else if (valve_006VK->get() == 3)
+      {
+        nextion->print("img006VK.pic=3");
+      }
+
+    //007VK
+      if (valve_007VK->get() == 0)
+      {
+        nextion->print("img007VK.pic=6");
+      }
+      else if (valve_007VK->get() == 1)
+      {
+        nextion->print("img007VK.pic=4");
+      }
+      else if (valve_007VK->get() == 2)
+      {
+        nextion->print("img007VK.pic=5");
+      }
+      else if (valve_007VK->get() == 3)
+      {
+        nextion->print("img007VK.pic=3");
+      }
+
+    //001PO
+      if (pump_001PO->get() == 0) {
+        nextion->print("img001PO.pic=29");
+      }
+      else if (pump_001PO->get() == 1)
+      {
+        nextion->print("img001PO.pic=30");
+      }
+      else if (pump_001PO->get() > 1)
+      {
+        nextion->print("img001PO.pic=31");
+      }
+
+    //002PO
+      if (pump_002PO->get() == 0)
+      {
+        nextion->print("img002PO.pic=29");
+      }
+      else if (pump_002PO->get() == 1)
+      {
+        nextion->print("img002PO.pic=30");
+      }
+      else if (pump_002PO->get() > 1)
+      {
+        nextion->print("img002PO.pic=31");
+      }
+
+    //003PO
+      if (pump_003PO->get() == 0)
+      {
+        nextion->print("img003PO.pic=9");
+      }
+      else if (pump_003PO->get() == 1)
+      {
+        nextion->print("img003PO.pic=10");
+      }
+      else if (pump_003PO->get() > 1)
+      {
+        nextion->print("img003PO.pic=11");
+      }
+    }
+
   }
+}
+  //nextion->print(" end IF ");
+//}
+
+
+void resetImages()
+{
+  trans_lignage_img87 = false;
+  trans_lignage_img88 = false;
+  trans_lignage_img89 = false;
+  trans_lignage_img90 = false;
+  trans_lignage_img91 = false;
+  trans_lignage_img92 = false;
+  trans_lignage_img93 = false;
+  trans_lignage_img94 = false;
+  trans_lignage_img95 = false;
+  trans_lignage_img96 = false;
+  trans_lignage_img97 = false;
+  trans_lignage_img98 = false;
+  trans_lignage_img99 = false;
+  trans_lignage_img100 = false;
+  trans_lignage_img101 = false;
 }

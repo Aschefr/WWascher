@@ -20,6 +20,14 @@ bool ValveTor::isMoving() {
   return this->get() == VALVE_OPENING || this->get() == VALVE_CLOSING;
 }
 
+bool ValveTor::isOpening() {
+  return this->get() == VALVE_OPENING;
+}
+
+bool ValveTor::isClosing() {
+  return this->get() == VALVE_CLOSING;
+}
+
 bool ValveTor::isClose() {
   return this->get() == VALVE_CLOSE;
 }

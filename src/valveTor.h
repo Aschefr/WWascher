@@ -13,8 +13,10 @@ class ValveTor : public Valve {
     void askClose();
 
     bool isOpen();
+    bool isOpening();
     bool isMoving();
     bool isClose();
+    bool isClosing();
 };
 
 #endif
