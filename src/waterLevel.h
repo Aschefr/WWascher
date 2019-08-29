@@ -8,7 +8,7 @@
 //Définition de l'objet "Pump"
 class WaterLevel : public Input {
   public: //Disponible pour tout le monde (public)
-    WaterLevel(int pin, unsigned int intervalUpdate = 200, bool reverse = true);
+    WaterLevel(int pin, unsigned int intervalUpdate = 200, bool reverse = false);
 };
 
 #endif

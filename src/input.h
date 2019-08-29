@@ -5,7 +5,7 @@
 
 class Input {
   public:
-    Input(int pin, unsigned int intervalUpdate = 200, bool reverse = true);
+    Input(int pin, unsigned int intervalUpdate = 200, bool reverse = false);
     bool get();
     void loop(unsigned long time);
   private:

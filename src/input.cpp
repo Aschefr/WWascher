@@ -1,6 +1,6 @@
 #include "input.h"
 
-Input::Input(int pin, unsigned int intervalUpdate = 200, bool reverse = true) {
+Input::Input(int pin, unsigned int intervalUpdate = 200, bool reverse = false) {
   this->pin = pin;
   pinMode(this->pin, INPUT);
   this->reverse = reverse;

@@ -96,6 +96,8 @@ void loop() {
   valve_007VK->loop(time);
 
   in001SP->loop(time);
+  in001SN->loop(time);
+  in002SN->loop(time);
 
   while (nextion->available()) {
     String data = nextion->getCommand();
@@ -314,307 +316,331 @@ void loop() {
     if (data == "Synopt_refresh")
     {
       //AFFICHAGE IHM
-
-      //ANIMATION DES LIGNAGES
-      //Lignage img87 (003PO sens 1 vers purge)
-
-      if (valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
-      {
-        if (!trans_lignage_img87)
-        {
-          nextion->print("lignage.pic=87");
-          resetImages();
-          trans_lignage_img87 = true;
-        }
-        //Lignage img88 (003PO sens 2 vers purge)
-      }
-      else if (valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
-      {
-        if (!trans_lignage_img88) {
-          nextion->print("lignage.pic=88");
-          resetImages();
-          trans_lignage_img88 = true;
-        }
-        //Lignage img89 (001PO sens 1 vers 001BA)
-      }
-      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img89) {
-          nextion->print("lignage.pic=89");
-          resetImages();
-          trans_lignage_img89 = true;
-        }
-        //Lignage img90 (001PO sens 2 vers 001BA)
-      }
-      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img90) {
-          nextion->print("lignage.pic=90");
-          resetImages();
-          trans_lignage_img90 = true;
-        }
-        //Lignage img91 (001PO sens 1 vers purge)
-      }
-      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img91) {
-          nextion->print("lignage.pic=91");
-          resetImages();
-          trans_lignage_img91 = true;
-        }
-        //Lignage img92 (001PO sens 2 vers purge)
-      }
-      else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img92) {
-          nextion->print("lignage.pic=92");
-          resetImages();
-          trans_lignage_img92 = true;
-        }
-        //Lignage img93 (002PO sens 1 vers 002BA)
-      }
-      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
-      {
-       if (!trans_lignage_img93) {
-          nextion->print("lignage.pic=93");
-          resetImages();
-          trans_lignage_img93 = true;
-        }
-        //Lignage img94 (002PO sens 2 vers 002BA)
-      }
-      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img94) {
-          nextion->print("lignage.pic=94");
-          resetImages();
-          trans_lignage_img94 = true;
-        }
-        //Lignage img95 (002PO sens 1 vers purge)
-      }
-      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img95) {
-          nextion->print("lignage.pic=95");
-          resetImages();
-          trans_lignage_img95 = true;
-        }
-        //Lignage img96 (002PO sens 2 vers purge)
-      }
-      else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
-      {
-        if (!trans_lignage_img96) {
-          nextion->print("lignage.pic=96");
-          resetImages();
-          trans_lignage_img96 = true;
-        }
-        //Lignage img97 (003PO sens 0 vers purge)
-      }
-      else if (valve_001VK->get() == 3 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
-      {
-        if (!trans_lignage_img97) {
-          nextion->print("lignage.pic=97");
-          resetImages();
-          trans_lignage_img97 = true;
-        }
-      }
-      else
-      {
-        if (!trans_lignage_img101)
-        {
-          nextion->print("lignage.pic=101");
-          resetImages();
-          trans_lignage_img101 = true;
-        }
-      }
-
-
-
-    //in001SN
-      if (!in001SN->get()) {
-        nextion->print("img001BA.pic=1");
-      } else {
-        nextion->print("img001BA.pic=2");
-      }
-
-    //in002SN
-      if (!in002SN->get()) {
-        nextion->print("img002BA.pic=1");
-        nextion->print("vis img001CH,1");
-      } else {
-        nextion->print("img002BA.pic=2");
-        nextion->print("vis img001CH,1");
-      }
-
-
-      //in001SP
-      if (!in001SP->get()) {
-        nextion->print("img001SP.pic=19");
-      } else {
-        nextion->print("img001SP.pic=20");
-      }
-
-    //001VK
-    if (valve_001VK->isClose()) {
-      nextion->print("img001VK.pic=21");
-    } else if (valve_001VK->isClosing()) {
-      nextion->print("img001VK.pic=23");
-    } else if (valve_001VK->isOpening()) {
-      nextion->print("img001VK.pic=22");
-    } else if (valve_001VK->isOpen()) {
-      nextion->print("img001VK.pic=24");
+      Synopt_refresh_lignage();
+      Synopt_refresh_objects();
     }
-
-    //002VK
-      if (valve_002VK->get() == 0) {
-        nextion->print("img002VK.pic=21");
-      }
-      if (valve_002VK->get() == 1)
-      {
-        nextion->print("img002VK.pic=23");
-      }
-      if (valve_002VK->get() == 2)
-      {
-        nextion->print("img002VK.pic=22");
-      }
-      if (valve_002VK->get() == 3)
-      {
-        nextion->print("img002VK.pic=24");
-      }
-
-    //003VK
-      if (valve_003VK->get() == 0) {
-        nextion->print("img003VK.pic=21");
-      }
-      if (valve_003VK->get() == 1)
-      {
-        nextion->print("img003VK.pic=23");
-      }
-      if (valve_003VK->get() == 2)
-      {
-        nextion->print("img003VK.pic=22");
-      }
-      if (valve_003VK->get() == 3)
-      {
-        nextion->print("img003VK.pic=24");
-      }
-
-    //004VK
-      if (valve_004VK->get() == 0) {
-        nextion->print("img004VK.pic=21");
-      }
-      if (valve_004VK->get() == 1)
-      {
-        nextion->print("img004VK.pic=23");
-      }
-      if (valve_004VK->get() == 2)
-      {
-        nextion->print("img004VK.pic=22");
-      }
-      if (valve_004VK->get() == 3)
-      {
-        nextion->print("img004VK.pic=24");
-      }
-
-    //005VK
-      if (valve_005VK->get() == 0) {
-        nextion->print("img005VK.pic=28");
-      }
-      if (valve_005VK->get() == 1)
-      {
-        nextion->print("img005VK.pic=26");
-      }
-      if (valve_005VK->get() == 2)
-      {
-        nextion->print("img005VK.pic=27");
-      }
-      if (valve_005VK->get() == 3)
-      {
-        nextion->print("img005VK.pic=25");
-      }
-
-    //006VK
-      if (valve_006VK->get() == 0)
-      {
-        nextion->print("img006VK.pic=6");
-      }
-      else if (valve_006VK->get() == 1)
-      {
-        nextion->print("img006VK.pic=4");
-      }
-      else if (valve_006VK->get() == 2)
-      {
-        nextion->print("img006VK.pic=5");
-      }
-      else if (valve_006VK->get() == 3)
-      {
-        nextion->print("img006VK.pic=3");
-      }
-
-    //007VK
-      if (valve_007VK->get() == 0)
-      {
-        nextion->print("img007VK.pic=6");
-      }
-      else if (valve_007VK->get() == 1)
-      {
-        nextion->print("img007VK.pic=4");
-      }
-      else if (valve_007VK->get() == 2)
-      {
-        nextion->print("img007VK.pic=5");
-      }
-      else if (valve_007VK->get() == 3)
-      {
-        nextion->print("img007VK.pic=3");
-      }
-
-    //001PO
-      if (pump_001PO->get() == 0) {
-        nextion->print("img001PO.pic=29");
-      }
-      else if (pump_001PO->get() == 1)
-      {
-        nextion->print("img001PO.pic=30");
-      }
-      else if (pump_001PO->get() > 1)
-      {
-        nextion->print("img001PO.pic=31");
-      }
-
-    //002PO
-      if (pump_002PO->get() == 0)
-      {
-        nextion->print("img002PO.pic=29");
-      }
-      else if (pump_002PO->get() == 1)
-      {
-        nextion->print("img002PO.pic=30");
-      }
-      else if (pump_002PO->get() > 1)
-      {
-        nextion->print("img002PO.pic=31");
-      }
-
-    //003PO
-      if (pump_003PO->get() == 0)
-      {
-        nextion->print("img003PO.pic=9");
-      }
-      else if (pump_003PO->get() == 1)
-      {
-        nextion->print("img003PO.pic=10");
-      }
-      else if (pump_003PO->get() > 1)
-      {
-        nextion->print("img003PO.pic=11");
-      }
-    }
-
   }
 }
   //nextion->print(" end IF ");
 //}
+void Synopt_refresh_lignage() {
 
+  //ANIMATION DES LIGNAGES
+  //Lignage img87 (003PO sens 1 vers purge)
+  if (valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+  {
+    if (!trans_lignage_img87)
+    {
+      nextion->print("lignage.pic=87");
+      resetImages();
+      trans_lignage_img87 = true;
+    }
+    //Lignage img88 (003PO sens 2 vers purge)
+  }
+  else if (valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+  {
+    if (!trans_lignage_img88) {
+      nextion->print("lignage.pic=88");
+      resetImages();
+      trans_lignage_img88 = true;
+    }
+    //Lignage img89 (001PO sens 1 vers 001BA)
+  }
+  else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img89) {
+      nextion->print("lignage.pic=89");
+      resetImages();
+      trans_lignage_img89 = true;
+    }
+    //Lignage img90 (001PO sens 2 vers 001BA)
+  }
+  else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 0 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img90) {
+      nextion->print("lignage.pic=90");
+      resetImages();
+      trans_lignage_img90 = true;
+    }
+    //Lignage img91 (001PO sens 1 vers purge)
+  }
+  else if (pump_001PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img91) {
+      nextion->print("lignage.pic=91");
+      resetImages();
+      trans_lignage_img91 = true;
+    }
+    //Lignage img92 (001PO sens 2 vers purge)
+  }
+  else if (pump_001PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img92) {
+      nextion->print("lignage.pic=92");
+      resetImages();
+      trans_lignage_img92 = true;
+    }
+    //Lignage img93 (002PO sens 1 vers 002BA)
+  }
+  else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
+  {
+   if (!trans_lignage_img93) {
+      nextion->print("lignage.pic=93");
+      resetImages();
+      trans_lignage_img93 = true;
+    }
+    //Lignage img94 (002PO sens 2 vers 002BA)
+  }
+  else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 0 && valve_006VK->get() == 3 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img94) {
+      nextion->print("lignage.pic=94");
+      resetImages();
+      trans_lignage_img94 = true;
+    }
+    //Lignage img95 (002PO sens 1 vers purge)
+  }
+  else if (pump_002PO->get() >= 1 && valve_001VK->get() == 3 && valve_002VK->get() == 0 && valve_003VK->get() == 0 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img95) {
+      nextion->print("lignage.pic=95");
+      resetImages();
+      trans_lignage_img95 = true;
+    }
+    //Lignage img96 (002PO sens 2 vers purge)
+  }
+  else if (pump_002PO->get() >= 1 && valve_001VK->get() == 0 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 0 && valve_005VK->get() == 3 && valve_007VK->get() == 3)
+  {
+    if (!trans_lignage_img96) {
+      nextion->print("lignage.pic=96");
+      resetImages();
+      trans_lignage_img96 = true;
+    }
+    //Lignage img97 (003PO sens 0 vers purge)
+  }
+  else if (valve_001VK->get() == 3 && valve_002VK->get() == 3 && valve_003VK->get() == 3 && valve_004VK->get() == 3 && valve_005VK->get() == 3 && valve_007VK->get() == 0)
+  {
+    if (!trans_lignage_img97) {
+      nextion->print("lignage.pic=97");
+      resetImages();
+      trans_lignage_img97 = true;
+    }
+  }
+  else
+  {
+    if (!trans_lignage_img101)
+    {
+      nextion->print("lignage.pic=101");
+      resetImages();
+      trans_lignage_img101 = true;
+    }
+  }
+}
+
+int Synopt_refresh_valve(Valve* valve, int lastStatus, String name, int pic1, int pic2, int pic3, int pic4) {
+  int newStatus = valve->get();
+  if (lastStatus === newStatus) {
+    return newStatus;
+  }
+  switch (newStatus) {
+    case VALVE_CLOSE:
+      nextion->print(name + ".pic=" + String(pic1));
+      break;
+    case VALVE_CLOSING:
+      nextion->print(name + ".pic=" + String(pic2));
+      break;
+    case VALVE_OPENING:
+      nextion->print(name + ".pic=" + String(pic3));
+      break;
+    case VALVE_OPEN:
+      nextion->print(name + ".pic=" + String(pic4));
+      break;
+  }
+  return newStatus;
+}
+
+void Synopt_refresh_objects() {
+
+  //in001SN
+  if (!in001SN->get()) {
+    nextion->print("img001BA.pic=1");
+  } else {
+    nextion->print("img001BA.pic=2");
+  }
+
+  //in002SN
+  if (!in002SN->get()) {
+    nextion->print("img002BA.pic=1");
+    nextion->print("vis img001CH,1");
+  } else {
+    nextion->print("img002BA.pic=2");
+    nextion->print("vis img001CH,1");
+  }
+
+  //in001SP
+  if (!in001SP->get()) {
+    nextion->print("img001SP.pic=19");
+  } else {
+    nextion->print("img001SP.pic=20");
+  }
+
+  static int cacheValve_001VK = Synopt_refresh_valve(valve_001VK, "img001VK", 21, 23, 22, 24);
+  //001VK
+  // if (valve_001VK->isClose()) {
+  //   nextion->print("img001VK.pic=21");
+  // } else if (valve_001VK->isClosing()) {
+  //   nextion->print("img001VK.pic=23");
+  // } else if (valve_001VK->isOpening()) {
+  //   nextion->print("img001VK.pic=22");
+  // } else if (valve_001VK->isOpen()) {
+  //   nextion->print("img001VK.pic=24");
+  // }
+
+  //002VK
+  if (valve_002VK->get() == 0) {
+    nextion->print("img002VK.pic=21");
+  }
+  if (valve_002VK->get() == 1)
+  {
+    nextion->print("img002VK.pic=23");
+  }
+  if (valve_002VK->get() == 2)
+  {
+    nextion->print("img002VK.pic=22");
+  }
+  if (valve_002VK->get() == 3)
+  {
+    nextion->print("img002VK.pic=24");
+  }
+
+//003VK
+  if (valve_003VK->get() == 0) {
+    nextion->print("img003VK.pic=21");
+  }
+  if (valve_003VK->get() == 1)
+  {
+    nextion->print("img003VK.pic=23");
+  }
+  if (valve_003VK->get() == 2)
+  {
+    nextion->print("img003VK.pic=22");
+  }
+  if (valve_003VK->get() == 3)
+  {
+    nextion->print("img003VK.pic=24");
+  }
+
+//004VK
+  if (valve_004VK->get() == 0) {
+    nextion->print("img004VK.pic=21");
+  }
+  if (valve_004VK->get() == 1)
+  {
+    nextion->print("img004VK.pic=23");
+  }
+  if (valve_004VK->get() == 2)
+  {
+    nextion->print("img004VK.pic=22");
+  }
+  if (valve_004VK->get() == 3)
+  {
+    nextion->print("img004VK.pic=24");
+  }
+
+//005VK
+  if (valve_005VK->get() == 0) {
+    nextion->print("img005VK.pic=28");
+  }
+  if (valve_005VK->get() == 1)
+  {
+    nextion->print("img005VK.pic=26");
+  }
+  if (valve_005VK->get() == 2)
+  {
+    nextion->print("img005VK.pic=27");
+  }
+  if (valve_005VK->get() == 3)
+  {
+    nextion->print("img005VK.pic=25");
+  }
+
+//006VK
+  if (valve_006VK->get() == 0)
+  {
+    nextion->print("img006VK.pic=6");
+  }
+  else if (valve_006VK->get() == 1)
+  {
+    nextion->print("img006VK.pic=4");
+  }
+  else if (valve_006VK->get() == 2)
+  {
+    nextion->print("img006VK.pic=5");
+  }
+  else if (valve_006VK->get() == 3)
+  {
+    nextion->print("img006VK.pic=3");
+  }
+
+//007VK
+  if (valve_007VK->get() == 0)
+  {
+    nextion->print("img007VK.pic=6");
+  }
+  else if (valve_007VK->get() == 1)
+  {
+    nextion->print("img007VK.pic=4");
+  }
+  else if (valve_007VK->get() == 2)
+  {
+    nextion->print("img007VK.pic=5");
+  }
+  else if (valve_007VK->get() == 3)
+  {
+    nextion->print("img007VK.pic=3");
+  }
+
+//001PO
+  if (pump_001PO->get() == 0) {
+    nextion->print("img001PO.pic=29");
+  }
+  else if (pump_001PO->get() == 1)
+  {
+    nextion->print("img001PO.pic=30");
+  }
+  else if (pump_001PO->get() > 1)
+  {
+    nextion->print("img001PO.pic=31");
+  }
+
+//002PO
+  if (pump_002PO->get() == 0)
+  {
+    nextion->print("img002PO.pic=29");
+  }
+  else if (pump_002PO->get() == 1)
+  {
+    nextion->print("img002PO.pic=30");
+  }
+  else if (pump_002PO->get() > 1)
+  {
+    nextion->print("img002PO.pic=31");
+  }
+
+//003PO
+  if (pump_003PO->get() == 0)
+  {
+    nextion->print("img003PO.pic=9");
+  }
+  else if (pump_003PO->get() == 1)
+  {
+    nextion->print("img003PO.pic=10");
+  }
+  else if (pump_003PO->get() > 1)
+  {
+    nextion->print("img003PO.pic=11");
+  }
+}
 
 void resetImages()
 {

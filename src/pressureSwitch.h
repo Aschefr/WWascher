@@ -8,7 +8,7 @@
 //Définition de l'objet "Pump"
 class PressureSwitch : public Input {
   public: //Disponible pour tout le monde (public)
-    PressureSwitch(int pin, unsigned int intervalUpdate = 200, bool reverse = true);
+    PressureSwitch(int pin, unsigned int intervalUpdate = 200, bool reverse = false);
 };
 
 #endif
