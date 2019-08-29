@@ -313,14 +313,14 @@ void loop() {
 
 
 //BOUCLE DE RAFRAICHISSEMENT POUR L'ANIMATION SYNOPTIQUE DE L"IHM :
-    if (data == "Synopt_refresh")
-    {
+    // if (data == "Synopt_refresh")
+    // {
       //AFFICHAGE IHM
-      Synopt_refresh_lignage();
-      Synopt_refresh_objects();
-    }
   }
+      Synopt_refresh_objects();
+      Synopt_refresh_lignage();
 }
+    // }
   //nextion->print(" end IF ");
 //}
 void Synopt_refresh_lignage() {
