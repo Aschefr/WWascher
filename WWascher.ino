@@ -439,7 +439,7 @@ void Synopt_refresh_lignage() {
 
 int Synopt_refresh_valve(Valve* valve, int lastStatus, String name, int pic1, int pic2, int pic3, int pic4) {
   int newStatus = valve->get();
-  if (lastStatus === newStatus) {
+  if (lastStatus == newStatus) {
     return newStatus;
   }
   switch (newStatus) {
@@ -484,7 +484,8 @@ void Synopt_refresh_objects() {
     nextion->print("img001SP.pic=20");
   }
 
-  static int cacheValve_001VK = Synopt_refresh_valve(valve_001VK, "img001VK", 21, 23, 22, 24);
+  static int cacheValve_001VK = -1;
+  cacheValve_001VK = Synopt_refresh_valve(valve_001VK, cacheValve_001VK, "img001VK", 21, 23, 22, 24);
   //001VK
   // if (valve_001VK->isClose()) {
   //   nextion->print("img001VK.pic=21");
